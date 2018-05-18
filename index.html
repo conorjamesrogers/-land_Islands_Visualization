@@ -145,19 +145,21 @@
 //                        d3.select(".toggleData")
 //                            .transition().duration(800)
 //                            .style("background-color","#823232");
-                        d3.selectAll("#pop").style("opacity", function(){
+                        d3.selectAll("#pop")
+                            .transition().duration(800)
+                            .style("opacity", function(){
                                 if(togData)
                                     return 1;
                                 else
                                     return 0;})
-                            .transition().duration(800);
 
-                        d3.selectAll("#swed").style("opacity", function(){
+                        d3.selectAll("#swed")
+                            .transition().duration(800)
+                            .style("opacity", function(){
                                 if(!togData)
                                     return 1;
                                 else
-                                    return 0;})
-                            .transition().duration(800);
+                                    return 0;});
                         
                          d3.select("h1")
                             .transition().duration(800)
@@ -188,12 +190,17 @@
 //                        d3.select(".toggleData")
 //                            .transition().duration(800)
 //                            .style("background-color","#28682d");
-                        d3.selectAll("#pop").style("opacity", function(){
+                         d3.selectAll("#pop")
+                            .transition().duration(800)
+                            .style("opacity", function(){
                                 if(togData)
                                     return 1;
                                 else
-                                    return 0;});
-                        d3.selectAll("#swed").style("opacity", function(){
+                                    return 0;})
+
+                        d3.selectAll("#swed")
+                            .transition().duration(800)
+                            .style("opacity", function(){
                                 if(!togData)
                                     return 1;
                                 else
