@@ -21,6 +21,45 @@
                 left: 420px;
                 background-color: skyblue;
             }
+            #tooltip {
+				position: absolute;
+				width: 150px;
+				height: auto;
+/*				padding: 2px;*/
+                border: none;
+                color: black;
+                padding: 5px;
+                text-align: left;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 10px;
+                font-weight: bold;
+                margin: 4px 2px;
+                opacity: .75;
+                cursor: pointer;
+                top: 191px;
+                left: 420px;
+                background-color: whitesmoke;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+/*				-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);*/
+/*				-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);*/
+/*				box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);*/
+				pointer-events: none;
+                font-weight: bold;
+			}
+			
+			#tooltip.hidden {
+				display: none;
+			}
+			
+			#tooltip p {
+				margin: 0;
+				font-family: sans-serif;
+				font-size: 12px;
+				line-height: 20px;
+			}
 		</style>
 	</head>
 	<body>
@@ -28,13 +67,21 @@
         <div class = "button-container">    
             <button class="button toggleData">Toggle Data</button>    
         </div> 
+        
+        <div id="tooltip" class="hidden">
+			<p><span id="province">placeholder</span></p>
+            <p>Population: <span id="population">placeholder</span></p>
+			<p>Area: <span id="area">placeholder</span> sq mi</p>
+			<p>Swedish Speakers: <span id="swed">placeholder</span>%</p>
+        </div>
 		<script type="text/javascript">
             
 
 			//Width and height
 			var w = 1100;
 			var h = 550;
-            
+//            d3.select("#tooltip").classed("hidden", true);
+
             var color = d3.scaleThreshold()
             .domain([0, 1, 5, 20, 60, 150, 300, 600])
             .range(d3.schemeOrRd[9]);
@@ -96,6 +143,38 @@
               // Highlight hovered province
 //              d3.select(this).style('fill', 'orange');
                 console.log(d.properties.NAME_1);
+                 var x = findObjectByKey(provinces,"province", d.properties.NAME_1);
+                var xPosition = parseFloat(d3.event.clientX);
+				var yPosition = parseFloat(d3.event.clientY-50);
+;
+//					var yPosition = parseFloat(yScale(d.epc)+60);
+
+//					//Update the tooltip position and value
+//					d3.select("#tooltip")
+//						.style("left", xPosition + "px")
+//						.style("top", yPosition + "px")						
+//						.select("#province")
+//						.text(x.province);
+//                    d3.select("#tooltip")
+//						.style("left", xPosition + "px")
+//						.style("top", yPosition + "px")						
+//						.select("#population")
+//						.text(x.pop);
+// 					d3.select("#tooltip")
+//						.style("left", xPosition + "px")
+//						.style("top", yPosition + "px")						
+//						.select("#area")
+//						.text(x.area);
+//					d3.select("#tooltip")
+//						.style("left", xPosition + "px")
+//						.style("top", yPosition + "px")						
+//						.select("#swed")
+//						.text(Math.round(x.swed*100));
+// 
+//			   
+//					//Show the tooltip
+//					d3.select("#tooltip").classed("hidden", false);
+
 
             }
             function findObjectByKey(array, key, value) {
@@ -109,7 +188,7 @@
             function mouseout(d){
               // Reset province color
 //              d3.select(this).style('fill', "grey");
-
+                d3.select("#tooltip").classed("hidden", true);
            
             }
   });
