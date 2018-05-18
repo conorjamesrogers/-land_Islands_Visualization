@@ -6,16 +6,30 @@
 		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 		<style type="text/css">
-/*
-			body{
-                background-color: ;
-                }	
-*/
+            button {
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                font-weight: bold;
+                margin: 4px 2px;
+                cursor: pointer;
+                top: 191px;
+                left: 420px;
+                background-color: skyblue;
+            }
 		</style>
 	</head>
 	<body>
-            <h1 style = "text-align:center; color:gray"><bold>Åland Islands</bold></h1>
+            <h1 style = "text-align:center; color:gray"><bold>Åland Islands; Population Density, 2009</bold></h1>
+        <div class = "button-container">    
+            <button class="button toggleData">Toggle Data</button>    
+        </div> 
 		<script type="text/javascript">
+            
 
 			//Width and height
 			var w = 1100;
@@ -24,6 +38,10 @@
             var color = d3.scaleThreshold()
             .domain([0, 1, 5, 20, 60, 150, 300, 600])
             .range(d3.schemeOrRd[9]);
+            
+            var colorAlt = d3.scaleThreshold()
+            .domain([80, 83, 85, 87, 90, 93, 95, 97, 100])
+            .range(d3.schemeGnBu[9]);
             
 			//Define map projection
             var projection = d3.geoEquirectangular()
@@ -48,8 +66,9 @@
                 provinces = data.map(function (d){
                     return {
                             province: d.province,
-                            pop: +d.pop,
-                            area:+d.area
+                            pop:  +d.pop,
+                            area: +d.area,
+                            swed: +d.swed
                         };
                 });
           
@@ -94,6 +113,134 @@
            
             }
   });
+            
+            var togData = true;
+             
+            d3.select(".toggleData")
+                .on("click", function(){
+                    // Determine if current line is visible
+                    togData=!togData;
+                    console.log(togData);
+                    if (togData == true){
+                        svg.selectAll("path")
+                            .transition().duration(800)
+                            .style("fill", function(d) {
+                               var x =findObjectByKey(provinces,"province",d.properties.NAME_1);
+                
+                                if (x) {
+                                    //If value exists…
+//                                    console.log(color(value))
+//                                    console.log((value))
+                                    return color(x.pop/x.area);
+                                } else {
+                                    //If value is undefined…
+                                    return "#ccc";
+                                } 
+                         });
+                    
+//                        d3.select("body")
+//                            .transition().duration(800)
+//                            .style("background-color","#381616");
+//                        
+//                        d3.select(".toggleData")
+//                            .transition().duration(800)
+//                            .style("background-color","#823232");
+                        d3.selectAll("#pop").style("opacity", function(){
+                                if(togData)
+                                    return 1;
+                                else
+                                    return 0;})
+                            .transition().duration(800);
+
+                        d3.selectAll("#swed").style("opacity", function(){
+                                if(!togData)
+                                    return 1;
+                                else
+                                    return 0;})
+                            .transition().duration(800);
+                        
+                         d3.select("h1")
+                            .transition().duration(800)
+                            .text("Åland Islands; Population Density, 2009");
+                       
+                        
+                    }
+                
+                    if (togData == false){
+                        svg.selectAll("path")
+                            .transition().duration(800)
+                            .style("fill", function(d) {
+                            var x =findObjectByKey(provinces,"province",d.properties.NAME_1);
+                                                if (x) {
+                                    //If value exists…                                 
+                                    
+                                    return colorAlt(x.swed*100);
+                                } else {
+                                    //If value is undefined…
+                                    return "#ccc";
+                                } 
+                         });
+                    
+//                        d3.select("body")
+//                            .transition().duration(800)
+//                            .style("background-color","#0c210e");
+//                        
+//                        d3.select(".toggleData")
+//                            .transition().duration(800)
+//                            .style("background-color","#28682d");
+                        d3.selectAll("#pop").style("opacity", function(){
+                                if(togData)
+                                    return 1;
+                                else
+                                    return 0;});
+                        d3.selectAll("#swed").style("opacity", function(){
+                                if(!togData)
+                                    return 1;
+                                else
+                                    return 0;});
+                        
+                        d3.select("h1")
+                            .transition().duration(800)
+                            .text("Åland Islands; Percentage of Swedish Speakers, 2009");
+                        
+                       
+                    }
+                 });
+                /*.on("mouseover",function(d){
+                            var state = d.properties.name;
+                            var productivity = d.properties.productivity;
+                            var population = d.properties.population;
+                            //console.log(d3.select(this))
+                            d3.select(this)
+                                .style("fill", "yellow");
+                        
+                            d3.select(".state-title").text(state);
+                            if (population){
+                                d3.select(".population").text("Population: " + formatComma(population));
+                            }
+                            if (productivity){
+                                d3.select(".productivity").text("Agricultural Productivity: " + productivity);
+                            }
+                        })*/
+//                .on("mouseout", function(d){
+//                            
+//                            var state = d.properties.name;
+//                            var productivity = d.properties.productivity;
+//                            var population = d.properties.population;
+//                            
+//                            d3.select(".state-title").text("");
+//                            d3.select(".population").text("");
+//                            d3.select(".productivity").text("");
+//                        });;
+            
+function findObjectByKey(array, key, value) {
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i][key] === value) {
+                        return array[i];
+                    }
+                }
+                return null;
+            }
 
 var x = d3.scaleSqrt()
     .domain([0, 600])
@@ -114,7 +261,13 @@ g.selectAll("rect")
     .attr("height", 8)
     .attr("x", function(d) { return x(d[0]); })
     .attr("width", function(d) { return x(d[1]) - x(d[0]); })
-    .attr("fill", function(d) { return color(d[0]); });
+    .attr("fill", function(d) { return color(d[0]); })
+    .style("opacity", function(){
+    if(togData)
+        return 1;
+    else
+        return 0;})
+    .attr("id", "pop");
 
 g.append("text")
     .attr("class", "caption")
@@ -123,14 +276,84 @@ g.append("text")
     .attr("fill", "#000")
     .attr("text-anchor", "start")
     .attr("font-weight", "bold")
-    .text("Population per square mile");
+    .text("Population per square mile")
+    .attr("id", "pop")
+    .style("opacity",function(){
+    if(togData)
+        return 1;
+    else
+        return 0;});
             
 g.call(d3.axisBottom(x)
     .tickSize(13)
     .tickValues(color.domain()))
+    .attr("id","pop")
+    .style("opacity",function(){
+    if(togData)
+        return 1;
+    else
+        return 0;})
   .select(".domain")
     .remove();
             
+//other axis
+            
+var y = d3.scaleSqrt()
+    .domain([80, 100])
+    .rangeRound([440, 950]);
+
+var g = svg.append("g")
+    .attr("class", "key")
+    .attr("transform", "translate(0,40)");
+
+g.selectAll("rect")
+  .data(colorAlt.range().map(function(d) {
+      d = colorAlt.invertExtent(d);
+      if (d[0] == null) d[0] = y.domain()[0];
+      if (d[1] == null) d[1] = y.domain()[1];
+      return d;
+    }))
+  .enter().append("rect")
+    .attr("height", 8)
+    .attr("x", function(d) { return y(d[0]); })
+    .attr("width", function(d) { return (y(d[1]) - y(d[0])); })
+    .attr("fill", function(d) { return colorAlt(d[0]); })
+    .attr("class", "ax")
+    .style("opacity", function(){
+    if(!togData)
+        return 1;
+    else
+        return 0;})
+    .attr("id", "swed");
+
+g.append("text")
+    .attr("class", "caption")
+    .attr("x", y.range()[0])
+    .attr("y", -6)
+    .attr("fill", "#000")
+    .attr("text-anchor", "start")
+    .attr("font-weight", "bold")
+    .text("Percentage Swedish Speakers")
+    .style("opacity", function(){
+    if(!togData)
+        return 1;
+    else
+        return 0;})
+    .attr("id", "swed");
+
+            
+g.call(d3.axisBottom(y)
+    .tickSize(13)
+    .tickValues(colorAlt.domain())
+    .tickFormat(d => d + "%"))
+    .style("opacity", function(){
+    if(!togData)
+        return 1;
+    else
+        return 0;})
+    .attr("id", "swed")
+  .select(".domain")
+    .remove();
 		</script>
 	</body>
 </html>
