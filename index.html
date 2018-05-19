@@ -63,7 +63,7 @@
 		</style>
 	</head>
 	<body>
-            <h1 style = "text-align:center; color:gray"><bold>Åland Islands; Population Density, 2009</bold></h1>
+            <h1 style = "text-align:center; color:gray"><bold>Åland Islands; Population Density, 2017</bold></h1>
         <div class = "button-container">    
             <button class="button toggleData">Toggle Data</button>    
         </div> 
@@ -150,30 +150,30 @@
 //					var yPosition = parseFloat(yScale(d.epc)+60);
 
 //					//Update the tooltip position and value
-//					d3.select("#tooltip")
-//						.style("left", xPosition + "px")
-//						.style("top", yPosition + "px")						
-//						.select("#province")
-//						.text(x.province);
-//                    d3.select("#tooltip")
-//						.style("left", xPosition + "px")
-//						.style("top", yPosition + "px")						
-//						.select("#population")
-//						.text(x.pop);
-// 					d3.select("#tooltip")
-//						.style("left", xPosition + "px")
-//						.style("top", yPosition + "px")						
-//						.select("#area")
-//						.text(x.area);
-//					d3.select("#tooltip")
-//						.style("left", xPosition + "px")
-//						.style("top", yPosition + "px")						
-//						.select("#swed")
-//						.text(Math.round(x.swed*100));
-// 
-//			   
-//					//Show the tooltip
-//					d3.select("#tooltip").classed("hidden", false);
+					d3.select("#tooltip")
+						.style("left", xPosition + "px")
+						.style("top", yPosition + "px")						
+						.select("#province")
+						.text(x.province);
+                    d3.select("#tooltip")
+						.style("left", xPosition + "px")
+						.style("top", yPosition + "px")						
+						.select("#population")
+						.text(x.pop);
+ 					d3.select("#tooltip")
+						.style("left", xPosition + "px")
+						.style("top", yPosition + "px")						
+						.select("#area")
+						.text(x.area);
+					d3.select("#tooltip")
+						.style("left", xPosition + "px")
+						.style("top", yPosition + "px")						
+						.select("#swed")
+						.text(Math.round(x.swed*100));
+ 
+			   
+					//Show the tooltip
+					d3.select("#tooltip").classed("hidden", false);
 
 
             }
@@ -242,7 +242,7 @@
                         
                          d3.select("h1")
                             .transition().duration(800)
-                            .text("Åland Islands; Population Density, 2009");
+                            .text("Åland Islands; Population Density, 2017");
                        
                         
                     }
@@ -252,7 +252,7 @@
                             .transition().duration(800)
                             .style("fill", function(d) {
                             var x =findObjectByKey(provinces,"province",d.properties.NAME_1);
-                                                if (x) {
+                                if (x) {
                                     //If value exists…                                 
                                     
                                     return colorAlt(x.swed*100);
@@ -287,7 +287,7 @@
                         
                         d3.select("h1")
                             .transition().duration(800)
-                            .text("Åland Islands; Percentage of Swedish Speakers, 2009");
+                            .text("Åland Islands; Percentage of Swedish Speakers, 2017");
                         
                        
                     }
@@ -444,7 +444,8 @@ g.call(d3.axisBottom(y)
         <p><a href="https://github.com/conorjamesrogers/Aland_Islands_Visualization">Github Link</a></p>
         <p>Web Links for sources: 
             <a href="https://github.com/balakrishna-k/USData/blob/master/index.html">USData</a>
-            <a href="https://bl.ocks.org/mbostock/5562380">California Pop Density</a>        
+            <a href="https://bl.ocks.org/mbostock/5562380">California Pop Density</a>
+            <a href="https://en.wikipedia.org/wiki/%C3%85land_Islands#Ethnicity_and_language">Wikipedia Demographics</a>
         </p>
 <p>Conor Rogers</p>
 <p>Instructor: Suresh Lodha</p>
